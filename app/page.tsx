@@ -19,7 +19,7 @@ export default function HomeScreen() {
 
       <ul className="mt-16">
         <li>
-          <a href="/start-before-you-are-ready">Essays</a>
+          <a href="/essays">Essays</a>
         </li>
         <li>
           <a>Work</a>

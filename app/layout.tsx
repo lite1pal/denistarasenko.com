@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
-import { GOOGLE_ANALYTICS_ID } from "@/config/env";
 import { Toaster } from "react-hot-toast";
 import { Nunito_Sans as FontSans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
@@ -82,25 +81,6 @@ export default function RootLayout({
         />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        <head>
-          <Script
-            id="google-analytics-script-1"
-            strategy="lazyOnload"
-            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
-          ></Script>
-          <Script
-            id="google-analytics-script-2"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', '${GOOGLE_ANALYTICS_ID}');`,
-            }}
-          ></Script>
-        </head>
       </head>
       <body
         className={`${fontSans.className} max-w-screen overflow-x-hidden bg-white`}

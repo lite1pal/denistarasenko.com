@@ -3,7 +3,10 @@
 h1 {
     font-size: 18px;
     font-weight: 700;
-    padding-bottom: 20px;
+}
+
+.essay-title {
+    font-weight: 400;
 }
 
 p {
@@ -14,4 +17,19 @@ p {
 
 a {
     text-decoration: underline;
+}
+
+.author {
+    color: gray;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+article {
+    padding-block: 100px;
+}
+
+ol {
+    list-style-type: decimal;
+    padding-left: 20px;
 }

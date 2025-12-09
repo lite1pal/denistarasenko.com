@@ -1,7 +1,7 @@
 export default function HomeScreen() {
   return (
     <div>
-      <h1>Denis Tarasenko</h1>
+      <h1 className="pb-5">Denis Tarasenko</h1>
 
       <p>
         I build <a href="https://nextnative.dev">software</a> and read a lot of{" "}
@@ -16,6 +16,18 @@ export default function HomeScreen() {
       </p>
 
       <p>Not add them.</p>
+
+      <ul className="mt-16">
+        <li>
+          <a href="/start-before-you-are-ready">Essays</a>
+        </li>
+        <li>
+          <a>Work</a>
+        </li>
+        <li>
+          <a>Books I love</a>
+        </li>
+      </ul>
     </div>
   );
 }

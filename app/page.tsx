@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HomeScreen() {
   return (
     <div>
@@ -19,13 +21,13 @@ export default function HomeScreen() {
 
       <ul className="mt-16">
         <li>
-          <a href="/essays">Essays</a>
+          <Link href="/essays">Essays</Link>
         </li>
         <li>
-          <a href="/work">Work</a>
+          <Link href="/work">Work</Link>
         </li>
         <li>
-          <a href="/books-i-love">Books I love</a>
+          <Link href="/books-i-love">Books I love</Link>
         </li>
       </ul>
     </div>

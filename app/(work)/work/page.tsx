@@ -1,11 +1,13 @@
+import Link from "next/link";
+
 export default function Page() {
   return (
     <article>
       <h1 className="essay-title">Work</h1>
 
-      <a className="author" href="/">
+      <Link className="author" href="/">
         By Denis Tarasenko
-      </a>
+      </Link>
 
       <ul className="mt-5">
         <li>
@@ -14,10 +16,14 @@ export default function Page() {
           </a>
         </li>
         <li>
-          <a href="https://nextnative.dev">Build habits that last</a>
+          <a href="https://apps.apple.com/ua/app/lasting-habits/id6736766976">
+            Build habits that last
+          </a>
         </li>
         <li>
-          <a href="https://nextnative.dev">Learn about plants with AI</a>
+          <a href="https://apps.apple.com/ua/app/sproutly-ai-plant-identifier/id6748902696">
+            Learn about plants with AI
+          </a>
         </li>
       </ul>
     </article>

@@ -1,11 +1,13 @@
+import Link from "next/link";
+
 export default function Page() {
   return (
     <article>
       <h1 className="essay-title">Books I love</h1>
 
-      <a className="author" href="/">
+      <Link className="author" href="/">
         By Denis Tarasenko
-      </a>
+      </Link>
 
       <h2 className="mt-5">Fiction</h2>
 

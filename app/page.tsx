@@ -8,8 +8,9 @@ export default function HomeScreen() {
       <p>
         I build <a href="https://nextnative.dev">software</a> and read a lot of{" "}
         <a href="https://www.goodreads.com/review/list/175721134-denis-tarasenko?shelf=currently-reading">
-          books.
+          books
         </a>
+        .
       </p>
 
       <p>

@@ -25,7 +25,7 @@ export default function HomeScreen() {
           <a href="/work">Work</a>
         </li>
         <li>
-          <a>Books I love</a>
+          <a href="/books-i-love">Books I love</a>
         </li>
       </ul>
     </div>

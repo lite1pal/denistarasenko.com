@@ -22,7 +22,7 @@ export default function HomeScreen() {
           <a href="/essays">Essays</a>
         </li>
         <li>
-          <a>Work</a>
+          <a href="/work">Work</a>
         </li>
         <li>
           <a>Books I love</a>

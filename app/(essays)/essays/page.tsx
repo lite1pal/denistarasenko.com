@@ -7,7 +7,7 @@ export default function Page() {
         By Denis Tarasenko
       </a>
 
-      <ul>
+      <ul className="mt-5">
         <li>
           <a href="/start-before-you-are-ready">Start before you're ready</a>
         </li>

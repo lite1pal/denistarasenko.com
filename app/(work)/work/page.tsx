@@ -9,7 +9,7 @@ export default function Page() {
         By Denis Tarasenko
       </Link>
 
-      <ul className="mt-5">
+      <ul className="mt-5 space-y-5">
         <li>
           <a href="https://nextnative.dev">
             Next.js boilerplate to ship mobile apps

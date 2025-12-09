@@ -20,13 +20,29 @@ p {
 }
 
 a {
-    text-decoration: underline;
+  text-decoration: none;
+  border-bottom: 1px solid rgb(0,0,0,0.5);
 }
+
 
 .author {
     color: gray;
+    font-size: 14px;
+    text-decoration:none;
+    border-bottom:none;
+    padding-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    a {
+    border-bottom: 1px solid rgb(255,255,255,0.5);
+    }
+
+    .author {
+    color: rgb(190, 190, 190);
     text-decoration: none;
     font-size: 14px;
+}
 }
 
 article {

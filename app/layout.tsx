@@ -66,7 +66,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={myFont.className}>
+      <body
+        className={`${myFont.className} dark:bg-neutral-900 dark:text-white`}
+      >
         <main className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center">
           {children}
         </main>

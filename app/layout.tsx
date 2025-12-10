@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Script from "next/script";
 
 const myFont = localFont({
   src: [
@@ -67,36 +66,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://analytics.denistarasenko.com/script.js"
+          data-website-id="d149d048-b9f5-468c-be25-0c30e20d04f5"
+        ></script>
+      </head>
       <body
         className={`${myFont.className} dark:bg-neutral-900 dark:text-white`}
       >
-        {/* Swetrix external script */}
-        <Script
-          src="https://swetrix.org/swetrix.js"
-          strategy="afterInteractive"
-          defer
-        />
-
-        {/* Swetrix inline initialization */}
-        <Script id="swetrix-init" strategy="afterInteractive">
-          {`
-            document.addEventListener('DOMContentLoaded', function() {
-              swetrix.init('M44aOKu05zLs', {
-                apiURL: 'http://swetrixapi-gwc8s4s40ck40wk0cswks40s.188.245.162.140.sslip.io/log',
-              });
-              swetrix.trackViews();
-            });
-          `}
-        </Script>
-
-        {/* Noscript fallback */}
-        <noscript>
-          <img
-            src="http://swetrixapi-gwc8s4s40ck40wk0cswks40s.188.245.162.140.sslip.io/log/noscript?pid=M44aOKu05zLs"
-            alt=""
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </noscript>
         <main className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center">
           {children}
         </main>

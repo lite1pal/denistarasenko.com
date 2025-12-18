@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { PT_Serif } from "next/font/google";
 import "./globals.css";
 
-const myFont = localFont({
-  src: [
-    {
-      path: "../public/fonts/PTSerif-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/PTSerif-Italic.ttf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/PTSerif-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const ptserif = PT_Serif({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  preload: true,
 });
+
+// const myFont = localFont({
+//   src: [
+//     {
+//       path: "../public/fonts/PTSerif-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/PTSerif-Italic.ttf",
+//       weight: "400",
+//       style: "italic",
+//     },
+//     {
+//       path: "../public/fonts/PTSerif-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//   ],
+// });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://denistarasenko.com"),
@@ -74,7 +80,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body
-        className={`${myFont.className} dark:bg-neutral-900 dark:text-white`}
+        className={`${ptserif.className} dark:bg-neutral-900 dark:text-white`}
       >
         <main className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center">
           {children}

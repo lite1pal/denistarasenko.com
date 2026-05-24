@@ -39,3 +39,4 @@ function wireNewsletter(formId, statusId) {
 
 wireNewsletter("newsletter-start", "newsletter-status-start");
 wireNewsletter("newsletter-why", "newsletter-status-why");
+wireNewsletter("newsletter-form", "newsletter-status");

@@ -17,7 +17,7 @@ function wireNewsletter(formId, statusId) {
 
     try {
       const response = await fetch(
-        "https://nextnative.dev/api/playground-access",
+        "/api/playground-access",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

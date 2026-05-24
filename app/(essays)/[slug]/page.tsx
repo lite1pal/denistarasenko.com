@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LatestEssays, EssayBreadcrumbs } from "@/app/components/essay-navigation";
-import { Byline, MutedText, PageShell, PageTitle, Prose } from "@/app/components/page-shell";
+import {
+  LatestEssays,
+  EssayBreadcrumbs,
+} from "@/app/components/essay-navigation";
+import NewsletterCta from "@/app/components/newsletter-cta";
+import {
+  Byline,
+  MutedText,
+  PageShell,
+  PageTitle,
+  Prose,
+} from "@/app/components/page-shell";
 import { essays, getEssayBySlug } from "./essays.data";
 
 type PageProps = {
@@ -84,6 +94,7 @@ export default async function Page({ params }: PageProps) {
 
       <Prose>{essay.content}</Prose>
 
+      <NewsletterCta />
       <LatestEssays items={latestEssays} />
 
       <script

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Prose } from "./components/page-shell";
+import NewsletterCta from "./components/newsletter-cta";
 
 export default function HomeScreen() {
   return (
@@ -28,6 +29,8 @@ export default function HomeScreen() {
           <Link href="/books-i-love">Books I love</Link>
         </li>
       </ul>
+
+      <NewsletterCta />
     </Prose>
   );
 }

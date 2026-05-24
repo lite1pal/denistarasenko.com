@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { essays } from "../essays.data";
 
 export default function Page() {
+  const sortedEssays = [...essays].sort((a, b) =>
+    b.publishedAt.localeCompare(a.publishedAt),
+  );
+
   return (
     <article>
       <h1 className="essay-title">Essays</h1>
@@ -10,14 +15,11 @@ export default function Page() {
       </Link>
 
       <ul className="mt-5">
-        <li>
-          <a href="/why-i-started-coding-manually-again">
-            Why I started coding manually again
-          </a>
-        </li>
-        <li>
-          <a href="/start-before-you-are-ready">Start before you're ready</a>
-        </li>
+        {sortedEssays.map((essay) => (
+          <li key={essay.slug}>
+            <Link href={`/${essay.slug}`}>{essay.title}</Link>
+          </li>
+        ))}
       </ul>
     </article>
   );

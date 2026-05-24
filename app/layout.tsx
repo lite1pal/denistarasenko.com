@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PT_Serif } from "next/font/google";
+import MainShell from "./components/main-shell";
 import "./globals.css";
 
 const ptserif = PT_Serif({
@@ -7,26 +8,6 @@ const ptserif = PT_Serif({
   subsets: ["latin"],
   preload: true,
 });
-
-// const myFont = localFont({
-//   src: [
-//     {
-//       path: "../public/fonts/PTSerif-Regular.ttf",
-//       weight: "400",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/PTSerif-Italic.ttf",
-//       weight: "400",
-//       style: "italic",
-//     },
-//     {
-//       path: "../public/fonts/PTSerif-Bold.ttf",
-//       weight: "700",
-//       style: "normal",
-//     },
-//   ],
-// });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://denistarasenko.com"),
@@ -82,9 +63,7 @@ export default function RootLayout({
       <body
         className={`${ptserif.className} dark:bg-neutral-900 dark:text-white`}
       >
-        <main className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center">
-          {children}
-        </main>
+        <MainShell>{children}</MainShell>
       </body>
     </html>
   );

@@ -38,6 +38,19 @@ a {
     padding-bottom: 0;
 }
 
+.site-nav {
+    width: 100%;
+    padding-top: 28px;
+    display: flex;
+    gap: 14px;
+    font-size: 14px;
+}
+
+.site-nav a {
+    border-bottom: none;
+    color: gray;
+}
+
 @media (prefers-color-scheme: dark) {
     a {
     border-bottom: 1px solid rgb(255,255,255,0.5);
@@ -47,6 +60,10 @@ a {
     color: rgb(190, 190, 190);
     text-decoration: none;
     font-size: 14px;
+}
+
+    .site-nav a {
+    color: rgb(190, 190, 190);
 }
 }
 

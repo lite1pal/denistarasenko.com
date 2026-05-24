@@ -172,6 +172,7 @@ a {
   background: #fff;
   font-size: 16px;
   padding: 0 16px;
+  cursor: pointer;
 }
 
 .newsletter-status {

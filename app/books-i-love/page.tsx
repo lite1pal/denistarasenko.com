@@ -1,29 +1,28 @@
-import Link from "next/link";
+import { Byline, PageShell, PageTitle, Prose, SectionTitle } from "../components/page-shell";
 
 export default function Page() {
   return (
-    <article>
-      <h1 className="essay-title">Books I love</h1>
+    <PageShell>
+      <PageTitle>Books I love</PageTitle>
+      <Byline />
 
-      <Link className="author" href="/">
-        By Denis Tarasenko
-      </Link>
+      <Prose>
+        <SectionTitle>Fiction</SectionTitle>
 
-      <h2 className="mt-5">Fiction</h2>
+        <ul className="mt-5">
+          <li>The Lord of the Rings</li>
+          <li>The Flowers for Algernon</li>
+          <li>11/22/63</li>
+        </ul>
 
-      <ul className="mt-5">
-        <li>The Lord of the Rings</li>
-        <li>The Flowers for Algernon</li>
-        <li>11/22/63</li>
-      </ul>
+        <SectionTitle>Non-fiction</SectionTitle>
 
-      <h2 className="mt-5">Non-fiction</h2>
-
-      <ul className="mt-5">
-        <li>Deep Work</li>
-        <li>Atomic Habits</li>
-        <li>Sapiens</li>
-      </ul>
-    </article>
+        <ul className="mt-5">
+          <li>Deep Work</li>
+          <li>Atomic Habits</li>
+          <li>Sapiens</li>
+        </ul>
+      </Prose>
+    </PageShell>
   );
 }

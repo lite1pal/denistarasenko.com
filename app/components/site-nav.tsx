@@ -11,12 +11,23 @@ export default function SiteNav() {
   }
 
   return (
-    <nav className="site-nav justify-between" aria-label="Primary">
-      <Link href="/">Denis Tarasenko</Link>
+    <nav
+      className="flex w-full justify-between pt-7 text-base text-gray-500 dark:text-[rgb(190,190,190)]"
+      aria-label="Primary"
+    >
+      <Link className="border-none no-underline" href="/">
+        Denis Tarasenko
+      </Link>
       <div className="flex flex-col sm:flex-row gap-3">
-        <Link href="/essays">Essays</Link>
-        <Link href="/work">Work</Link>
-        <Link href="/books-i-love">Books</Link>
+        <Link className="border-none no-underline" href="/essays">
+          Essays
+        </Link>
+        <Link className="border-none no-underline" href="/work">
+          Work
+        </Link>
+        <Link className="border-none no-underline" href="/books-i-love">
+          Books
+        </Link>
       </div>
     </nav>
   );

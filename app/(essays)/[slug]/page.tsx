@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LatestEssays, EssayBreadcrumbs } from "@/app/components/essay-navigation";
+import { Byline, MutedText, PageShell, PageTitle, Prose } from "@/app/components/page-shell";
 import { essays, getEssayBySlug } from "./essays.data";
 
 type PageProps = {
@@ -74,36 +75,21 @@ export default async function Page({ params }: PageProps) {
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
   return (
-    <article>
-      <p className="author breadcrumb">
-        <Link href="/">Home</Link> / <Link href="/essays">Essays</Link> /{" "}
-        {essay.title}
-      </p>
+    <PageShell>
+      <EssayBreadcrumbs title={essay.title} />
 
-      <h1 className="essay-title">{essay.title}</h1>
+      <PageTitle>{essay.title}</PageTitle>
+      <Byline />
+      <MutedText>{formatDate(essay.publishedAt)}</MutedText>
 
-      <Link className="author" href="/">
-        By Denis Tarasenko
-      </Link>
-      <p className="author">{formatDate(essay.publishedAt)}</p>
+      <Prose>{essay.content}</Prose>
 
-      {essay.content}
-
-      <section className="latest-essays">
-        <h2>Latest essays</h2>
-        <ul>
-          {latestEssays.map((entry) => (
-            <li key={entry.slug}>
-              <Link href={`/${entry.slug}`}>{entry.title}</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <LatestEssays items={latestEssays} />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-    </article>
+    </PageShell>
   );
 }

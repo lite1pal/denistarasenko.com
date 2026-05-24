@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Byline, PageShell, PageTitle, Prose } from "@/app/components/page-shell";
 import { essays } from "../[slug]/essays.data";
 
 export default function Page() {
@@ -7,20 +8,19 @@ export default function Page() {
   );
 
   return (
-    <article>
-      <h1 className="essay-title">Essays</h1>
+    <PageShell>
+      <PageTitle>Essays</PageTitle>
+      <Byline />
 
-      <Link className="author" href="/">
-        By Denis Tarasenko
-      </Link>
-
-      <ul className="mt-5">
-        {sortedEssays.map((essay) => (
-          <li key={essay.slug}>
-            <Link href={`/${essay.slug}`}>{essay.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </article>
+      <Prose className="mt-5">
+        <ul>
+          {sortedEssays.map((essay) => (
+            <li key={essay.slug}>
+              <Link href={`/${essay.slug}`}>{essay.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </Prose>
+    </PageShell>
   );
 }

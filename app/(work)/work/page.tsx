@@ -1,31 +1,30 @@
-import Link from "next/link";
+import { Byline, PageShell, PageTitle, Prose } from "@/app/components/page-shell";
 
 export default function Page() {
   return (
-    <article>
-      <h1 className="essay-title">Work</h1>
+    <PageShell>
+      <PageTitle>Work</PageTitle>
+      <Byline />
 
-      <Link className="author" href="/">
-        By Denis Tarasenko
-      </Link>
-
-      <ul className="mt-5 space-y-5">
-        <li>
+      <Prose className="mt-5">
+        <ul>
+          <li>
           <a href="https://nextnative.dev">
             Next.js boilerplate to ship mobile apps
           </a>
-        </li>
-        <li>
+          </li>
+          <li>
           <a href="https://apps.apple.com/ua/app/lasting-habits/id6736766976">
             Build habits that last
           </a>
-        </li>
-        <li>
+          </li>
+          <li>
           <a href="https://apps.apple.com/ua/app/sproutly-ai-plant-identifier/id6748902696">
             Learn about plants with AI
           </a>
-        </li>
-      </ul>
-    </article>
+          </li>
+        </ul>
+      </Prose>
+    </PageShell>
   );
 }

@@ -11,6 +11,11 @@ export default function Page() {
 
       <ul className="mt-5">
         <li>
+          <a href="/why-i-started-coding-manually-again">
+            Why I started coding manually again
+          </a>
+        </li>
+        <li>
           <a href="/start-before-you-are-ready">Start before you're ready</a>
         </li>
       </ul>

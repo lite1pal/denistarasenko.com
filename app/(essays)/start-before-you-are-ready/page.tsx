@@ -8,6 +8,7 @@ export default function Page() {
       <Link className="author" href="/">
         By Denis Tarasenko
       </Link>
+      <p className="author">Dec 9, 2025</p>
 
       <p className="mt-5">I never feel quite ready before doing something.</p>
 

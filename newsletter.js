@@ -27,7 +27,7 @@ function wireNewsletter(formId, statusId) {
 
       if (!response.ok) throw new Error("Request failed");
       form.reset();
-      status.textContent = "Success. Check your inbox.";
+      status.textContent = "Success. Expect quality writing soon.";
     } catch (error) {
       status.textContent = "Something went wrong. Please try again.";
     } finally {

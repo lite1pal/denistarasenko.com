@@ -71,8 +71,7 @@ p {
   font-weight: 400;
 }
 
-ul,
-ol {
+ul {
   margin: 0;
   padding-left: 0;
 }
@@ -91,6 +90,7 @@ li {
 }
 
 ol {
+  margin: 0;
   padding-left: 50px;
   margin-bottom: 20px;
 }

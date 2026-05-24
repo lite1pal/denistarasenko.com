@@ -29,7 +29,31 @@
           <li><a href="work.html">Work</a></li>
           <li><a href="books.html">Books I love</a></li>
         </ul>
+
+        <section class="newsletter">
+          <h2>Get my essays in your inbox</h2>
+          <p class="newsletter-copy">
+            Thoughts on engineering, slow productivity, books, and building
+            calmer software.
+          </p>
+          <form class="newsletter-form" id="newsletter-why">
+            <input
+              class="newsletter-input"
+              type="email"
+              name="email"
+              placeholder="email@domain.com"
+              required
+            />
+            <button class="newsletter-button" type="submit">Subscribe</button>
+          </form>
+          <p id="newsletter-status-why" class="newsletter-status"></p>
+          <p class="newsletter-footnote">
+            Only quality writing. No spam. Unsubscribe anytime.
+          </p>
+        </section>
       </div>
     </main>
+
+    <script src="newsletter.js?v=3"></script>
   </body>
 </html>

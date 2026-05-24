@@ -1,4 +1,10 @@
-import { Byline, PageShell, PageTitle, Prose } from "@/app/components/page-shell";
+import {
+  Byline,
+  PageShell,
+  PageTitle,
+  Prose,
+} from "@/app/components/page-shell";
+import { work } from "./work.data";
 
 export default function Page() {
   return (
@@ -8,21 +14,13 @@ export default function Page() {
 
       <Prose className="mt-5">
         <ul>
-          <li>
-          <a href="https://nextnative.dev">
-            Next.js boilerplate to ship mobile apps
-          </a>
-          </li>
-          <li>
-          <a href="https://apps.apple.com/ua/app/lasting-habits/id6736766976">
-            Build habits that last
-          </a>
-          </li>
-          <li>
-          <a href="https://apps.apple.com/ua/app/sproutly-ai-plant-identifier/id6748902696">
-            Learn about plants with AI
-          </a>
-          </li>
+          {work.map((w) => (
+            <li>
+              <a href={w.href} target="_blank">
+                {w.title}{" "}
+              </a>
+            </li>
+          ))}
         </ul>
       </Prose>
     </PageShell>

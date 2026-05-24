@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { essays } from "../essays.data";
+import { essays } from "../[slug]/essays.data";
 
 export default function Page() {
   const sortedEssays = [...essays].sort((a, b) =>

@@ -1,16 +1,13 @@
 @import "tailwindcss";
 
 h1 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 h2 {
+    font-size: 18px;
     font-weight: 700;
-}
-
-.essay-title {
-    font-weight: 400;
 }
 
 p {
@@ -51,6 +48,16 @@ a {
     color: gray;
 }
 
+.breadcrumb {
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
+.breadcrumb a {
+    border-bottom: none;
+    color: inherit;
+}
+
 @media (prefers-color-scheme: dark) {
     a {
     border-bottom: 1px solid rgb(255,255,255,0.5);
@@ -70,6 +77,14 @@ a {
 article {
     padding-block: 100px;
     width: 100%;
+}
+
+.latest-essays {
+    margin-top: 70px;
+}
+
+.latest-essays ul {
+    margin-top: 20px;
 }
 
 .quote {

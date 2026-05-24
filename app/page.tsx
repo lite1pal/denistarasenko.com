@@ -6,11 +6,7 @@ export default function HomeScreen() {
       <h1 className="pb-5">Denis Tarasenko</h1>
 
       <p>
-        I build{" "}
-        <a href="https://nextnative.dev" target="_blank">
-          software
-        </a>{" "}
-        and read a lot of books.
+        I build <Link href="/work">software</Link> and read a lot of books.
       </p>
 
       <p>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { essays, getEssayBySlug } from "../essays.data";
+import { essays, getEssayBySlug } from "./essays.data";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -69,8 +69,17 @@ export default async function Page({ params }: PageProps) {
     mainEntityOfPage: `https://denistarasenko.com/${essay.slug}`,
   };
 
+  const latestEssays = essays
+    .filter((entry) => entry.slug !== essay.slug)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
   return (
     <article>
+      <p className="author breadcrumb">
+        <Link href="/">Home</Link> / <Link href="/essays">Essays</Link> /{" "}
+        {essay.title}
+      </p>
+
       <h1 className="essay-title">{essay.title}</h1>
 
       <Link className="author" href="/">
@@ -79,6 +88,17 @@ export default async function Page({ params }: PageProps) {
       <p className="author">{formatDate(essay.publishedAt)}</p>
 
       {essay.content}
+
+      <section className="latest-essays">
+        <h2>Latest essays</h2>
+        <ul>
+          {latestEssays.map((entry) => (
+            <li key={entry.slug}>
+              <Link href={`/${entry.slug}`}>{entry.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <script
         type="application/ld+json"

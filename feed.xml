@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Denis Tarasenko Essays</title>
+    <link>https://denistarasenko.com/essays.html</link>
+    <description>Essays by Denis Tarasenko</description>
+    <language>en-us</language>
+    <item>
+      <title>Why I started coding manually again</title>
+      <link>https://denistarasenko.com/why-i-started-coding-manually-again.html</link>
+      <guid>https://denistarasenko.com/why-i-started-coding-manually-again.html</guid>
+      <pubDate>Wed, 20 May 2026 12:00:00 GMT</pubDate>
+      <description>A personal note about balancing AI-assisted coding with manual craftsmanship.</description>
+    </item>
+    <item>
+      <title>Start before you&apos;re ready</title>
+      <link>https://denistarasenko.com/start-before-you-are-ready.html</link>
+      <guid>https://denistarasenko.com/start-before-you-are-ready.html</guid>
+      <pubDate>Tue, 09 Dec 2025 12:00:00 GMT</pubDate>
+      <description>On procrastination, accountability, and forcing progress through action.</description>
+    </item>
+  </channel>
+</rss>

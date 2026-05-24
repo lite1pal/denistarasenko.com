@@ -1,0 +1,7 @@
+{
+  "name": "denistarasenko-com",
+  "private": true,
+  "scripts": {
+    "generate:content": "node scripts/generate-content.mjs"
+  }
+}

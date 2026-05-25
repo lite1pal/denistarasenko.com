@@ -379,6 +379,10 @@ async function generateEssayHtmlFromMarkdown() {
 }
 
 async function parseEssay(fileName) {
+  if (fileName.startsWith("book-review-") || fileName.startsWith("goodreads-review-")) {
+    return null;
+  }
+
   const fullPath = path.join(ROOT, fileName);
   const html = await readFile(fullPath, "utf8");
 

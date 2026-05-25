@@ -5,24 +5,9 @@ const essays = [
     date: "2026-05-20",
   },
   {
-    slug: "book-review-what-i-talk-about-when-i-talk-about-running.html",
-    title: "Review: What I Talk About When I Talk About Running",
-    date: "2026-05-06",
-  },
-  {
     slug: "start-before-you-are-ready.html",
     title: "Start before you're ready",
     date: "2025-12-09",
-  },
-  {
-    slug: "book-review-harry-potter-and-the-philosopher-s-stone.html",
-    title: "Review: Harry Potter and the Philosopher&#39;s Stone",
-    date: "2024-12-08",
-  },
-  {
-    slug: "book-review-the-shining.html",
-    title: "Review: The Shining",
-    date: "2024-10-05",
   },
 ];
 

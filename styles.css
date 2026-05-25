@@ -142,6 +142,20 @@ a {
   padding-bottom: 0;
 }
 
+.essay-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.essay-list .date {
+  display: inline-block;
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .breadcrumb {
   color: gray;
   font-size: 14px;

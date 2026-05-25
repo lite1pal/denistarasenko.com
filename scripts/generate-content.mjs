@@ -411,6 +411,10 @@ async function generateEssayHtmlFromMarkdown() {
 }
 
 async function parseEssay(fileName) {
+  if (["index.html", "essays.html", "books.html", "work.html"].includes(fileName)) {
+    return null;
+  }
+
   if (fileName.startsWith("book-review-") || fileName.startsWith("goodreads-review-")) {
     return null;
   }
@@ -490,7 +494,7 @@ function buildEssaysIndexHtml(essays) {
   const items = essays
     .map(
       (essay) =>
-        `            <li>\n              <a href="${essay.slug}">${escapeHtml(essay.title)}</a>\n            </li>`,
+        `            <li>\n              <a href="${essay.slug}">${escapeHtml(essay.title)}</a>\n              <time class="date" datetime="${essay.date}">${toHumanDate(essay.date)}</time>\n            </li>`,
     )
     .join("\n");
 
@@ -515,7 +519,7 @@ function buildEssaysIndexHtml(essays) {
           <h1>Essays</h1>
           <a href="index.html" class="author">By Denis Tarasenko</a>
 
-          <ul class="spacer-top">
+          <ul class="spacer-top essay-list">
 ${items}
           </ul>
         </article>

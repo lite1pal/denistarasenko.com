@@ -129,12 +129,14 @@ a {
 }
 
 .author {
+  display: block;
   color: gray;
   font-size: 14px;
   border-bottom: none;
 }
 
 .date {
+  display: block;
   color: gray;
   font-size: 14px;
   padding-bottom: 0;

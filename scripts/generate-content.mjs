@@ -176,7 +176,7 @@ function parseInlineMarkdown(text) {
       const trimmedSrc = src.trim().replace(/^\/+/, "");
       const publicSrc = `/public/${trimmedSrc.replace(/^public\//, "")}`;
       const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
-      return `<img src="${publicSrc}" alt="${escapeHtml(alt || "")}" loading="lazy"${titleAttr} />`;
+      return `<img src="${publicSrc}" alt="${escapeHtml(alt || "")}" loading="lazy" decoding="async" style="max-width: 100%; height: auto; padding-bottom: 30px;"${titleAttr} />`;
     })
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")

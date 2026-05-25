@@ -1,0 +1,19 @@
+---
+  title: "Specific headline with your main keyword"
+  date: 2026-05-25
+  description: "One clear sentence (140-160 chars) summarizing the article and including the core topic
+  phrase."
+  image: "/public/essays/my-post-cover.jpg"
+  ---
+
+  ![My post cover](/public/essays/my-post-cover.jpg)
+
+  Intro paragraph that clearly states what this post is about.
+
+  ## Section with keyword variant
+
+  Useful content...
+
+  ## Another section
+
+  More useful content...

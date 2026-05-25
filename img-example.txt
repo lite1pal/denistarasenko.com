@@ -1,0 +1,7 @@
+<img
+            src="/public/nature.webp"
+            alt="Nature"
+            loading="lazy"
+            decoding="async"
+            style="max-width: 100%; height: auto; padding-bottom: 30px"
+          />

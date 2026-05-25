@@ -3,6 +3,14 @@ import path from "node:path";
 
 const SITE_URL = "https://denistarasenko.com";
 const ROOT = process.cwd();
+const ANALYTICS_SCRIPT = `<script
+      defer=""
+      src="https://analytics.denistarasenko.com/script.js"
+      data-website-id="c4fd4a3a-c1eb-40a0-ba15-750124213746"
+      data-exclude-search="true"
+      data-exclude-hash="true"
+      data-do-not-track="true"
+    ></script>`;
 
 function textBetween(input, startRegex, endRegex) {
   const startMatch = input.match(startRegex);
@@ -59,16 +67,46 @@ function parseHumanDate(humanDate) {
   return new Date(Date.UTC(year, month, day, 12, 0, 0));
 }
 
-function toIsoDate(humanDate) {
-  const date = parseHumanDate(humanDate);
+function parseIsoDate(isoDate) {
+  const match = String(isoDate).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+    return null;
+  }
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+}
+
+function parseSupportedDate(value) {
+  return parseHumanDate(String(value).trim()) || parseIsoDate(value);
+}
+
+function toIsoDate(dateInput) {
+  const date = parseSupportedDate(dateInput);
   if (!date || Number.isNaN(date.getTime())) return null;
   return date.toISOString().slice(0, 10);
 }
 
-function toRfc822(humanDate) {
-  const date = parseHumanDate(humanDate);
+function toRfc822(dateInput) {
+  const date = parseSupportedDate(dateInput);
   if (!date || Number.isNaN(date.getTime())) return null;
   return date.toUTCString();
+}
+
+function toHumanDate(dateInput) {
+  const date = parseSupportedDate(dateInput);
+  if (!date || Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }
 
 async function getHtmlFiles() {
@@ -76,6 +114,211 @@ async function getHtmlFiles() {
   return entries
     .filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
     .map((entry) => entry.name);
+}
+
+async function getMarkdownFiles() {
+  const entries = await readdir(ROOT, { withFileTypes: true });
+  return entries
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
+    .map((entry) => entry.name)
+    .sort();
+}
+
+function slugToTitle(slug) {
+  return slug
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+function fileNameToSlug(fileName) {
+  return fileName
+    .replace(/\.[^.]+$/, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function parseFrontmatter(mdText) {
+  const match = mdText.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) {
+    return { meta: {}, body: mdText.trim() };
+  }
+
+  const meta = {};
+  const rawMeta = match[1].split("\n");
+  for (const line of rawMeta) {
+    const kv = line.match(/^\s*([a-zA-Z0-9_-]+):\s*(.*)$/);
+    if (!kv) continue;
+    meta[kv[1].toLowerCase()] = kv[2].trim().replace(/^['"]|['"]$/g, "");
+  }
+
+  const body = mdText.slice(match[0].length).trim();
+  return { meta, body };
+}
+
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function parseInlineMarkdown(text) {
+  const escaped = escapeHtml(text);
+  return escaped
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, alt, src, title) => {
+      const trimmedSrc = src.trim().replace(/^\/+/, "");
+      const publicSrc = `/public/${trimmedSrc.replace(/^public\//, "")}`;
+      const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
+      return `<img src="${publicSrc}" alt="${escapeHtml(alt || "")}" loading="lazy"${titleAttr} />`;
+    })
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function markdownToHtmlBlocks(markdown) {
+  const lines = markdown.split("\n");
+  const blocks = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i].trimEnd();
+    if (!line.trim()) {
+      i += 1;
+      continue;
+    }
+
+    const olMatch = line.match(/^\d+\.\s+/);
+    if (olMatch) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+        i += 1;
+      }
+      blocks.push(`<ol>\n${items.map((item) => `  <li>${parseInlineMarkdown(item)}</li>`).join("\n")}\n</ol>`);
+      continue;
+    }
+
+    const ulMatch = line.match(/^[-*]\s+/);
+    if (ulMatch) {
+      const items = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^[-*]\s+/, ""));
+        i += 1;
+      }
+      blocks.push(`<ul>\n${items.map((item) => `  <li>${parseInlineMarkdown(item)}</li>`).join("\n")}\n</ul>`);
+      continue;
+    }
+
+    const paragraphLines = [line.trim()];
+    i += 1;
+    while (i < lines.length && lines[i].trim() && !/^\d+\.\s+/.test(lines[i].trim()) && !/^[-*]\s+/.test(lines[i].trim())) {
+      paragraphLines.push(lines[i].trim());
+      i += 1;
+    }
+
+    blocks.push(`<p>${parseInlineMarkdown(paragraphLines.join(" "))}</p>`);
+  }
+
+  return blocks;
+}
+
+function buildEssayHtml({ title, date, description, bodyHtml, slug }) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(title)} | Denis Tarasenko</title>
+    <meta
+      name="description"
+      content="${escapeHtml(description)}"
+    />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="styles.css" />
+    ${ANALYTICS_SCRIPT}
+  </head>
+  <body>
+    <main class="page">
+      <div class="container">
+        <!--# include virtual="/partials/navbar.html" -->
+
+        <article class="article">
+          <p class="breadcrumb">
+            <a href="index.html" class="muted-link">Home</a> /
+            <a href="essays.html" class="muted-link">Essays</a> / ${escapeHtml(title)}
+          </p>
+
+          <h1>${escapeHtml(title)}</h1>
+          <a href="index.html" class="author">By Denis Tarasenko</a>
+          <p class="date">${escapeHtml(date)}</p>
+
+          ${bodyHtml}
+
+          <!--# include virtual="/partials/latest-essays.html" -->
+
+          <!--# include virtual="/partials/newsletter.html" -->
+        </article>
+      </div>
+    </main>
+
+    <script src="latest-essays.js?v=1"></script>
+    <script src="newsletter.js?v=4"></script>
+  </body>
+</html>
+`;
+}
+
+async function generateEssayHtmlFromMarkdown() {
+  const mdFiles = await getMarkdownFiles();
+  let generated = 0;
+
+  for (const mdFile of mdFiles) {
+    const fullPath = path.join(ROOT, mdFile);
+    const mdText = await readFile(fullPath, "utf8");
+    const { meta, body } = parseFrontmatter(mdText);
+
+    const title = meta.title || slugToTitle(mdFile);
+    const rawDate = meta.date;
+    if (!rawDate) {
+      throw new Error(`Missing required "date" in frontmatter for ${mdFile}.`);
+    }
+    const date = toHumanDate(rawDate);
+    if (!date) {
+      throw new Error(
+        `Invalid date format in frontmatter for ${mdFile}: ${rawDate}. Use YYYY-MM-DD or Mon D, YYYY.`,
+      );
+    }
+
+    const description = meta.description || "Essay by Denis Tarasenko.";
+    const htmlFile = `${fileNameToSlug(mdFile)}.html`;
+    const bodyBlocks = markdownToHtmlBlocks(body);
+    if (bodyBlocks.length === 0) {
+      throw new Error(`Markdown file has no content body: ${mdFile}`);
+    }
+    bodyBlocks[0] = bodyBlocks[0].replace("<p>", '<p class="spacer-top">');
+
+    const html = buildEssayHtml({
+      title,
+      date,
+      description,
+      bodyHtml: bodyBlocks.join("\n\n          "),
+      slug: htmlFile,
+    });
+
+    await writeFile(path.join(ROOT, htmlFile), html, "utf8");
+    generated += 1;
+  }
+
+  return generated;
 }
 
 async function parseEssay(fileName) {
@@ -104,6 +347,10 @@ async function parseEssay(fileName) {
     rssDate,
     description,
   };
+}
+
+function isCanonicalEssaySlug(slug) {
+  return !/\s/.test(slug) && /^[a-z0-9-]+\.html$/i.test(slug);
 }
 
 function buildLatestEssaysJs(essays) {
@@ -143,22 +390,79 @@ function buildRssXml(essays) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>Denis Tarasenko Essays</title>\n    <link>${SITE_URL}/essays.html</link>\n    <description>Essays by Denis Tarasenko</description>\n    <language>en-us</language>\n${items}\n  </channel>\n</rss>\n`;
 }
 
+function buildEssaysIndexHtml(essays) {
+  const items = essays
+    .map(
+      (essay) =>
+        `            <li>\n              <a href="${essay.slug}">${escapeHtml(essay.title)}</a>\n            </li>`,
+    )
+    .join("\n");
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Essays | Denis Tarasenko</title>
+    <meta name="description" content="Essays by Denis Tarasenko." />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="styles.css" />
+    ${ANALYTICS_SCRIPT}
+  </head>
+  <body>
+    <main class="page">
+      <div class="container">
+        <!--# include virtual="/partials/navbar.html" -->
+
+        <article class="article">
+          <h1>Essays</h1>
+          <a href="index.html" class="author">By Denis Tarasenko</a>
+
+          <ul class="spacer-top">
+${items}
+          </ul>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>
+`;
+}
+
 async function main() {
+  const generatedFromMarkdown = await generateEssayHtmlFromMarkdown();
   const htmlFiles = await getHtmlFiles();
   const essayCandidates = await Promise.all(htmlFiles.map(parseEssay));
-  const essays = essayCandidates
-    .filter(Boolean)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const essaysByIdentity = new Map();
+  for (const essay of essayCandidates.filter(Boolean)) {
+    const key = `${essay.title.toLowerCase()}|${essay.date}`;
+    const current = essaysByIdentity.get(key);
+    if (!current) {
+      essaysByIdentity.set(key, essay);
+      continue;
+    }
+
+    if (isCanonicalEssaySlug(essay.slug) && !isCanonicalEssaySlug(current.slug)) {
+      essaysByIdentity.set(key, essay);
+    }
+  }
+
+  const essays = Array.from(essaysByIdentity.values()).sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
 
   if (essays.length === 0) {
     throw new Error("No essays found. Expected pages with <h1> and <p class=\"date\">.");
   }
 
   await writeFile(path.join(ROOT, "latest-essays.js"), buildLatestEssaysJs(essays), "utf8");
+  await writeFile(path.join(ROOT, "essays.html"), buildEssaysIndexHtml(essays), "utf8");
   await writeFile(path.join(ROOT, "sitemap.xml"), buildSitemapXml(htmlFiles), "utf8");
   await writeFile(path.join(ROOT, "feed.xml"), buildRssXml(essays), "utf8");
 
-  console.log(`Generated latest-essays.js, sitemap.xml, feed.xml from ${essays.length} essay(s).`);
+  console.log(
+    `Generated ${generatedFromMarkdown} HTML page(s) from Markdown and updated essays.html, latest-essays.js, sitemap.xml, feed.xml from ${essays.length} essay(s).`,
+  );
 }
 
 main().catch((error) => {

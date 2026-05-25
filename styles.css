@@ -17,9 +17,8 @@ body {
 }
 
 .home {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+  min-height: 100dvh;
+  padding: 0 0 24px;
 }
 
 .page {
@@ -54,6 +53,10 @@ h1.home-title {
   font-size: 24px;
   font-weight: 700;
   padding-bottom: 20px;
+}
+
+.home .container {
+  padding-top: clamp(72px, 40vh, 200px);
 }
 
 h2 {

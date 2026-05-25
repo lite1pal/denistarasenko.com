@@ -193,6 +193,7 @@ function buildReviewHtmlPage({ title, reviewParagraphs, pageFileName, reviewPubl
     <meta name="twitter:title" content="Review: ${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <script type="application/ld+json">${jsonLd}</script>
+    <link rel="alternate" type="application/rss+xml" title="Denis Tarasenko Essays RSS" href="https://denistarasenko.com/feed.xml" />
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles.css" />
     ${ANALYTICS_SCRIPT}

@@ -330,6 +330,7 @@ function buildEssayHtml({ title, date, description, bodyHtml, slug }) {
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     ${ogImageUrl ? `<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />` : ""}
     <script type="application/ld+json">${jsonLdRaw}</script>
+    <link rel="alternate" type="application/rss+xml" title="Denis Tarasenko Essays RSS" href="https://denistarasenko.com/feed.xml" />
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles.css" />
     ${ANALYTICS_SCRIPT}
@@ -500,6 +501,7 @@ function buildEssaysIndexHtml(essays) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Essays | Denis Tarasenko</title>
     <meta name="description" content="Essays by Denis Tarasenko." />
+    <link rel="alternate" type="application/rss+xml" title="Denis Tarasenko Essays RSS" href="https://denistarasenko.com/feed.xml" />
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles.css" />
     ${ANALYTICS_SCRIPT}

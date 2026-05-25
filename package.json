@@ -2,6 +2,7 @@
   "name": "denistarasenko-com",
   "private": true,
   "scripts": {
-    "generate:content": "node scripts/generate-content.mjs"
+    "generate:content": "node scripts/generate-content.mjs",
+    "books:sync": "node scripts/sync-goodreads-books.mjs"
   }
 }

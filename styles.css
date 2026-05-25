@@ -194,3 +194,21 @@ a {
     align-items: center;
   }
 }
+
+.books-list {
+  gap: 16px;
+}
+
+.book-item {
+  line-height: 1.35;
+}
+
+.book-review {
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.muted {
+  color: #6b7280;
+}

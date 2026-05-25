@@ -231,7 +231,48 @@ function markdownToHtmlBlocks(markdown) {
   return blocks;
 }
 
+function firstImageSrcFromHtml(html) {
+  const match = html.match(/<img[^>]+src="([^"]+)"/i);
+  return match ? match[1] : null;
+}
+
 function buildEssayHtml({ title, date, description, bodyHtml, slug }) {
+  const isoDate = toIsoDate(date);
+  if (!isoDate) {
+    throw new Error(`Could not convert essay date to ISO for ${slug}: ${date}`);
+  }
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+  const ogImage = firstImageSrcFromHtml(bodyHtml);
+  const ogImageUrl = ogImage
+    ? (ogImage.startsWith("http://") || ogImage.startsWith("https://")
+      ? ogImage
+      : `${SITE_URL}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`)
+    : null;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    author: {
+      "@type": "Person",
+      name: "Denis Tarasenko",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Denis Tarasenko",
+      url: SITE_URL,
+    },
+    datePublished: isoDate,
+    dateModified: isoDate,
+    mainEntityOfPage: canonicalUrl,
+    url: canonicalUrl,
+  };
+  if (ogImageUrl) {
+    jsonLd.image = [ogImageUrl];
+  }
+  const jsonLdRaw = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -242,6 +283,22 @@ function buildEssayHtml({ title, date, description, bodyHtml, slug }) {
       name="description"
       content="${escapeHtml(description)}"
     />
+    <meta name="author" content="Denis Tarasenko" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="${escapeHtml(canonicalUrl)}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Denis Tarasenko" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="${escapeHtml(title)}" />
+    <meta property="og:description" content="${escapeHtml(description)}" />
+    <meta property="og:url" content="${escapeHtml(canonicalUrl)}" />
+    ${ogImageUrl ? `<meta property="og:image" content="${escapeHtml(ogImageUrl)}" />` : ""}
+    <meta property="article:published_time" content="${isoDate}" />
+    <meta name="twitter:card" content="${ogImageUrl ? "summary_large_image" : "summary"}" />
+    <meta name="twitter:title" content="${escapeHtml(title)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />
+    ${ogImageUrl ? `<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />` : ""}
+    <script type="application/ld+json">${jsonLdRaw}</script>
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles.css" />
     ${ANALYTICS_SCRIPT}
@@ -259,7 +316,7 @@ function buildEssayHtml({ title, date, description, bodyHtml, slug }) {
 
           <h1>${escapeHtml(title)}</h1>
           <a href="index.html" class="author">By Denis Tarasenko</a>
-          <p class="date">${escapeHtml(date)}</p>
+          <time class="date" datetime="${isoDate}">${escapeHtml(date)}</time>
 
           ${bodyHtml}
 
@@ -326,7 +383,10 @@ async function parseEssay(fileName) {
   const html = await readFile(fullPath, "utf8");
 
   const titleRaw = textBetween(html, /<h1[^>]*>/i, /<\/h1>/i);
-  const dateRaw = textBetween(html, /<p class="date"[^>]*>/i, /<\/p>/i);
+  const dateRawMatch = html.match(
+    /<(?:p|time)[^>]*class="date"[^>]*>([\s\S]*?)<\/(?:p|time)>/i,
+  );
+  const dateRaw = dateRawMatch ? stripTags(dateRawMatch[1]) : "";
   if (!titleRaw || !dateRaw) return null;
 
   const metaDescriptionMatch = html.match(

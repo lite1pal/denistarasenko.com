@@ -2,9 +2,25 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Tinos";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("public/fonts/tinos-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Tinos";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("public/fonts/tinos-700.ttf") format("truetype");
+}
+
 body {
   margin: 0;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Tinos", "Times New Roman", Times, serif;
   color: #000;
   background: #fff;
 }

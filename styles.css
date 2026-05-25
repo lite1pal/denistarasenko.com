@@ -203,10 +203,19 @@ a {
   line-height: 1.35;
 }
 
+.book-item > a + a {
+  border-bottom: none;
+  color: blue;
+}
+
 .book-review {
   margin-top: 8px;
   color: #6b7280;
   font-size: 15px;
+}
+
+.review-link {
+  text-decoration: none;
 }
 
 .muted {

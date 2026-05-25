@@ -3,6 +3,6 @@
   "private": true,
   "scripts": {
     "generate:content": "node scripts/generate-content.mjs",
-    "books:sync": "node scripts/sync-goodreads-books.mjs"
+    "books:sync": "GOODREADS_FEED_URL='https://www.goodreads.com/review/list_rss/175721134?shelf=read' node scripts/sync-goodreads-books.mjs"
   }
 }

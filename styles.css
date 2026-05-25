@@ -86,7 +86,7 @@ p {
   margin: 0;
   padding-bottom: 20px;
   font-size: 18px;
-  line-height: 1.2;
+  line-height: 1.4;
   font-weight: 400;
 }
 
@@ -112,6 +112,9 @@ ol {
   margin: 0;
   padding-left: 50px;
   margin-bottom: 20px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 a {

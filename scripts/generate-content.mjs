@@ -9,8 +9,8 @@ const ANALYTICS_SCRIPT = `<script
       data-website-id="c4fd4a3a-c1eb-40a0-ba15-750124213746"
       data-exclude-search="true"
       data-exclude-hash="true"
-      data-do-not-track="true"
     ></script>`;
+const ANALYTICS_WEBSITE_ID = "c4fd4a3a-c1eb-40a0-ba15-750124213746";
 
 function textBetween(input, startRegex, endRegex) {
   const startMatch = input.match(startRegex);
@@ -122,6 +122,37 @@ async function getMarkdownFiles() {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
     .map((entry) => entry.name)
     .sort();
+}
+
+async function validateAnalyticsConfiguration(htmlFiles) {
+  const issues = [];
+
+  for (const fileName of htmlFiles) {
+    const fullPath = path.join(ROOT, fileName);
+    const html = await readFile(fullPath, "utf8");
+    if (!html.includes("analytics.denistarasenko.com/script.js")) continue;
+
+    const websiteIdMatch = html.match(/data-website-id="([^"]*)"/i);
+    if (!websiteIdMatch) {
+      issues.push(`${fileName}: missing data-website-id`);
+      continue;
+    }
+
+    const websiteId = websiteIdMatch[1].trim();
+    if (websiteId !== ANALYTICS_WEBSITE_ID) {
+      issues.push(
+        `${fileName}: unexpected data-website-id "${websiteId}" (expected "${ANALYTICS_WEBSITE_ID}")`,
+      );
+    }
+
+    if (websiteId.includes("\n") || websiteId.includes("\r")) {
+      issues.push(`${fileName}: data-website-id contains a line break`);
+    }
+  }
+
+  if (issues.length) {
+    throw new Error(`Analytics configuration errors:\n- ${issues.join("\n- ")}`);
+  }
 }
 
 function slugToTitle(slug) {
@@ -496,6 +527,7 @@ ${items}
 async function main() {
   const generatedFromMarkdown = await generateEssayHtmlFromMarkdown();
   const htmlFiles = await getHtmlFiles();
+  await validateAnalyticsConfiguration(htmlFiles);
   const essayCandidates = await Promise.all(htmlFiles.map(parseEssay));
   const essaysByIdentity = new Map();
   for (const essay of essayCandidates.filter(Boolean)) {

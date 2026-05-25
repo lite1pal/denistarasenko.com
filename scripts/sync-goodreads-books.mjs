@@ -14,7 +14,6 @@ const ANALYTICS_SCRIPT = `<script
       data-website-id="c4fd4a3a-c1eb-40a0-ba15-750124213746"
       data-exclude-search="true"
       data-exclude-hash="true"
-      data-do-not-track="true"
     ></script>`;
 
 const GOODREADS_USER_ID = process.env.GOODREADS_USER_ID;

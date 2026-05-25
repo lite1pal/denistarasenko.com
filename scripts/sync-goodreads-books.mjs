@@ -144,10 +144,10 @@ function buildReviewDescription(paragraphs, title) {
   return `${snippet}${paragraphs[0].length > 150 ? '...' : ''}`;
 }
 
-function buildReviewHtmlPage({ title, reviewParagraphs, pageFileName, readDate }) {
+function buildReviewHtmlPage({ title, reviewParagraphs, pageFileName, reviewPublishedAt }) {
   const pageUrl = `${SITE_URL}/${pageFileName}`;
-  const isoDate = toIsoDate(readDate) || new Date().toISOString().slice(0, 10);
-  const humanDate = toHumanDate(readDate) || toHumanDate(new Date().toISOString());
+  const isoDate = toIsoDate(reviewPublishedAt) || new Date().toISOString().slice(0, 10);
+  const humanDate = toHumanDate(reviewPublishedAt) || toHumanDate(new Date().toISOString());
   const description = buildReviewDescription(reviewParagraphs, title);
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
@@ -286,6 +286,7 @@ function parseItems(xml) {
     const bookId = readTag(itemXml, 'book_id');
     const isbn = readTag(itemXml, 'isbn');
     const userReadAt = readTag(itemXml, 'user_read_at');
+    const userDateCreated = readTag(itemXml, 'user_date_created');
     const pubDate = readTag(itemXml, 'pubDate');
     const userRating = parseNumericTag(readTag(itemXml, 'user_rating'));
     const description = readTag(itemXml, 'description');
@@ -309,6 +310,7 @@ function parseItems(xml) {
       reviewParagraphs,
       reviewPage,
       userReadAt,
+      userDateCreated,
       sortTs,
     });
   }
@@ -368,7 +370,7 @@ async function syncReviewPages(books) {
       title: book.title,
       reviewParagraphs: book.reviewParagraphs,
       pageFileName,
-      readDate: book.userReadAt,
+      reviewPublishedAt: book.userDateCreated || book.userReadAt,
     });
     await writeFile(path.join(ROOT, pageFileName), html, 'utf8');
   }

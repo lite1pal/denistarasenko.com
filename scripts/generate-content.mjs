@@ -6,11 +6,11 @@ const ROOT = process.cwd();
 const ANALYTICS_SCRIPT = `<script
       defer=""
       src="https://analytics.denistarasenko.com/script.js"
-      data-website-id="c4fd4a3a-c1eb-40a0-ba15-750124213746"
+      data-website-id="d149d048-b9f5-468c-be25-0c30e20d04f5"
       data-exclude-search="true"
       data-exclude-hash="true"
     ></script>`;
-const ANALYTICS_WEBSITE_ID = "c4fd4a3a-c1eb-40a0-ba15-750124213746";
+const ANALYTICS_WEBSITE_ID = "d149d048-b9f5-468c-be25-0c30e20d04f5";
 
 function textBetween(input, startRegex, endRegex) {
   const startMatch = input.match(startRegex);

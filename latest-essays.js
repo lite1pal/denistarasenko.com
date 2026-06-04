@@ -1,5 +1,10 @@
 const essays = [
   {
+    slug: "why-i-am-building-software-more-slowly-now.html",
+    title: "Why I&#39;m building software more slowly now",
+    date: "2026-06-04",
+  },
+  {
     slug: "i-took-back-control-of-my-digital-life.html",
     title: "I took back control of my digital life",
     date: "2026-05-25",
